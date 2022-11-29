@@ -26,6 +26,9 @@ export default function Home() {
   return (
     <div>
       <div>
+        <h1>some change</h1>
+      </div>
+      <div>
         <label>How many reps did you do?</label>
       </div>
       <input id="repsInput" placeholder="# reps" type="text" />
