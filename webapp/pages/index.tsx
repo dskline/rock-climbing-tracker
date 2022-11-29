@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 type SessionExercise = {
+  random: string
   type: "PUSHUP";
   sessions: {
     start_time: string;
