@@ -1,18 +1,30 @@
 import { useEffect, useState } from "react";
 
-type SessionExercise = {
-  random: string
-  type: "PUSHUP";
-  sessions: {
-    start_time: string;
-  };
-  exercise_pushups: Array<{
-    reps: number;
-  }>;
+const EXERCISES = {
+  PUSHUP: {},
+  TENNIS_SERVE: {},
+};
+type ExerciseWithReps = {
+  reps: number;
+};
+type Exercise = {
+  type: keyof typeof EXERCISES;
+  data: ExerciseWithReps;
+};
+
+type Session = {
+  start_time: string;
+  session_exercises: Array<Exercise>;
+};
+type InsertedSession = {
+  id: string;
+  start_time: string;
+  end_time: string;
 };
 
 export default function Home() {
-  const [sessionExercises, setSessionExercises] = useState<SessionExercise[]>();
+  const [sessions, setSessions] = useState<Session[]>([] as Session[]);
+  const [insertedSession, setInsertedSession] = useState<InsertedSession>();
 
   useEffect(() => {
     fetchSessionData();
@@ -21,14 +33,33 @@ export default function Home() {
   const fetchSessionData = async () => {
     const response = await fetch("/api/sessions");
     const json = await response.json();
-    setSessionExercises(json.data);
+    setSessions(json.data);
+  };
+
+  const handleCreateSession = async () => {
+    try {
+      const response = await fetch("/api/sessions", {
+        method: "PUT",
+      });
+      const json = await response.json();
+
+      setInsertedSession(json.data[0]);
+      setSessions([
+        ...sessions,
+        {
+          start_time: json.data[0].start_time,
+          session_exercises: [],
+        },
+      ]);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
     <div>
-      <div>
-        <h1>some change</h1>
-      </div>
+      <button onClick={() => handleCreateSession()}>Start a new session</button>
+      <div>{insertedSession ? insertedSession.id : ""}</div>
       <div>
         <label>How many reps did you do?</label>
       </div>
@@ -39,7 +70,18 @@ export default function Home() {
             "repsInput"
           ) as HTMLInputElement;
           if (repsInput.value) {
-            alert("You did " + repsInput.value + " reps!");
+            fetch(`/api/sessions/${insertedSession?.id}/exercises`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                type: "PUSHUP",
+                data: {
+                  reps: parseInt(repsInput.value),
+                },
+              }),
+            });
           }
         }}
       >
@@ -48,24 +90,28 @@ export default function Home() {
       <br />
       <br />
       <div>
-        {!sessionExercises && (
+        {!sessions && (
           <div>
             <p>Loading...</p>
           </div>
         )}
-        {sessionExercises && (
+        {sessions && (
           <table>
             <thead>
               <tr>
-                <th>Time</th>
-                <th>Reps</th>
+                <th>Session Date</th>
+                <th>Total Reps</th>
               </tr>
             </thead>
             <tbody>
-              {sessionExercises.map((sessionExercise) => (
-                <tr key={sessionExercise.sessions.start_time}>
-                  <td>{sessionExercise.sessions.start_time}</td>
-                  <td>{sessionExercise.exercise_pushups[0].reps}</td>
+              {sessions.map((session) => (
+                <tr key={session.start_time}>
+                  <td>{session.start_time}</td>
+                  <td>
+                    {session.session_exercises
+                      ? calculateTotalReps(session.session_exercises)
+                      : 0}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -74,4 +120,14 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+function calculateTotalReps(exercises: Array<Exercise>) {
+  let total = 0;
+  for (const exercise of exercises) {
+    if (exercise.data.reps) {
+      total += exercise.data.reps;
+    }
+  }
+  return total;
 }

@@ -17,10 +17,10 @@ export default async function handler(
     res.status(200).json({ data, error, statusText });
 
   } else if (req.method === "GET") {
-    // join the sessions and session_exercises tables
-    const { data, error } = await supabase
-      .from("session_exercises")
-      .select("sessions(start_time), type, exercise_pushups(reps)")
+    // get all sessions
+    const { data, error, statusText } = await supabase
+      .from("sessions")
+      .select("start_time, session_exercises (type, data)");
 
     res.status(200).json({ data, error });
   }
