@@ -4,6 +4,8 @@ import { StartSessionButton } from "./StartSessionButton";
 import { Session } from "./types";
 import { RecordReps } from "./RecordReps";
 import { SessionsTable } from "./SessionsTable";
+import { NavBar } from "../../../components/NavBar";
+
 
 export const RecordExercise = () => {
   const [sessions, setSessions] = useState<Session[]>([] as Session[]);
@@ -26,6 +28,8 @@ export const RecordExercise = () => {
 
   return (
     <div>
+      <NavBar />
+
       <StartSessionButton onSessionCreated={handleCreateSession} />
       <div>{insertedSession ? insertedSession.id : ""}</div>
       {insertedSession && <RecordReps sessionId={insertedSession.id} />}
