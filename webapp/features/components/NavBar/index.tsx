@@ -1,12 +1,24 @@
 import Link from "next/link";
 
+const LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/exercises", label: "Exercises" },
+];
+
 export function NavBar() {
   return (
-    <div>
-      <Link href="/">Home</Link>
-      <Link href="/exercises">Exercises</Link>
+    <div className="p-4 flex items-center justify-between bg-white shadow-md">
+      <nav className="flex gap-4 text-sm">
+        {LINKS.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className="font-semibold text-gray-500 hover:text-gray-800"
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }
-
-
