@@ -1,13 +1,19 @@
-import { EXERCISES } from "./Exercises";
-
 type ExerciseWithReps = {
   reps: number;
 };
 
+const DATA_TYPES = {
+  ExerciseWithReps: {
+    reps: "number",
+  }
+}
+
 export type Exercise = {
-  type: keyof typeof EXERCISES;
-  data: ExerciseWithReps;
-};
+  name: string;
+  description: string;
+  icon: string;
+  dataType: keyof typeof DATA_TYPES;
+}
 
 export type Session = {
   id: string;
