@@ -1,5 +1,5 @@
-import { createSession } from "./createSession";
-import { Session } from "./types";
+import { createSession } from "@/features/exercise-recording/crud/createSession";
+import { Session } from "@/features/exercise-recording/types";
 
 type Props = {
   onSessionCreated: (newSession: Session) => void;

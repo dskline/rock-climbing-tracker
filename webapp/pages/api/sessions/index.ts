@@ -1,4 +1,4 @@
-import initSupabase from "../../../features/db/initSupabase";
+import initSupabase from "@/features/db/initSupabase";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

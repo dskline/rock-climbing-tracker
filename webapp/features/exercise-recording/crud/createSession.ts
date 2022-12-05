@@ -1,4 +1,4 @@
-import { Session } from './types'
+import { Session } from '@/features/exercise-recording/types';
 
 export const createSession = async (): Promise<Session> => {
   try {

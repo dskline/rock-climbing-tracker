@@ -1,5 +1,5 @@
-import { RecordExercise } from "../features/exercise-recording/ui/RecordExercise";
+import { RecordSession } from '@/features/exercise-recording/ui/RecordSession';
 
 export default function Home() {
-  return <RecordExercise />;
+  return <RecordSession />;
 }

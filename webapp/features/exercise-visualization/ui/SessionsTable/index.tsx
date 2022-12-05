@@ -1,4 +1,4 @@
-import { Exercise, Session } from './types'
+import { Exercise, Session } from '@/features/exercise-recording/types'
 
 type Props = {
   sessions: Session[];
@@ -37,7 +37,7 @@ export const SessionsTable = ({ sessions }: Props) => {
   )
 }
 
-function calculateTotalReps(exercises: Array<Exercise>) {
+function calculateTotalReps(exercises: Array<Exercise<any>>) {
   let total = 0;
   for (const exercise of exercises) {
     if (exercise.data.reps) {

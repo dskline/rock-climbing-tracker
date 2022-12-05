@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createPushupExercise } from "../../../../../features/core/crud/createExercise";
+import { createPushupExercise } from "@/features/exercise-recording/crud/createExercise";
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,4 +1,4 @@
-import initSupabase from '../../../features/db/initSupabase';
+import initSupabase from '@/features/db/initSupabase';
 
 export async function createPushupExercise(sessionId: string, reps: number) {
   const supabase = initSupabase();
@@ -15,7 +15,6 @@ export async function createPushupExercise(sessionId: string, reps: number) {
       },
     ])
     .select("exercise_id");
-  console.log(data);
 
   if (!data) {
     return {

@@ -1,43 +1,43 @@
-import { useEffect, useState } from "react";
-
-import { StartSessionButton } from "./StartSessionButton";
-import { Session } from "./types";
+import { NavBar } from "@/features/components/NavBar";
+import { EXERCISES } from "@/features/exercise-recording/ui/RecordExercise/Exercises";
 import { RecordReps } from "./RecordReps";
-import { SessionsTable } from "./SessionsTable";
-import { NavBar } from "../../../components/NavBar";
-import { useRouter } from "next/router";
+import { Exercise } from "@/features/exercise-recording/types";
+import { useState } from "react";
 
-export const RecordExercise = () => {
-  const [sessions, setSessions] = useState<Session[]>([] as Session[]);
-  const [insertedSession, setInsertedSession] = useState<Session>();
-
-  const router = useRouter();
-
-  useEffect(() => {
-    fetchSessionData();
-  }, []);
-
-  const fetchSessionData = async () => {
-    const response = await fetch("/api/sessions");
-    const json = await response.json();
-    setSessions(json.data);
-  };
-
-  const handleCreateSession = (newSession: Session) => {
-    router.push(`/session/${newSession.id}`);
-  };
+type Props = {
+  sessionId: string;
+};
+export const RecordExercise = ({ sessionId }: Props) => {
+  const [selectedExercise, setSelectedExercise] = useState<Exercise<any>>();
 
   return (
     <div>
       <NavBar />
-
-      <StartSessionButton onSessionCreated={handleCreateSession} />
-
-      <div>{insertedSession ? insertedSession.id : ""}</div>
-      {insertedSession && <RecordReps sessionId={insertedSession.id} />}
-      <br />
-      <br />
-      <SessionsTable sessions={sessions} />
+      <div className="p-8">
+        <div>Select an exercise:</div>
+        <div className="grid gap-4 grid-cols-6 w-full my-2">
+          {Object.values(EXERCISES).map((exercise) => {
+            return (
+              <button
+                key={exercise.name}
+                title={exercise.description}
+                className="h-12 bg-blue-100 rounded-lg border border-blue-800 text-blue-900 font-semibold shadow-lg"
+                onClick={() => setSelectedExercise(exercise)}
+              >
+                <span className="pr-2">{exercise.icon}</span>
+                {exercise.name}
+              </button>
+            );
+          })}
+        </div>
+        {selectedExercise && (
+          <div className="mt-4">
+            {selectedExercise.type === "ExerciseWithReps" && (
+              <RecordReps sessionId={sessionId} />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
