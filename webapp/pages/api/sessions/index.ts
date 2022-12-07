@@ -23,5 +23,6 @@ export default async function handler(
       .select("start_time, session_exercises (type, data)");
 
     res.status(200).json({ data, error });
-  }
+
+  } 
 }

@@ -3,12 +3,16 @@ import { EXERCISES } from "@/features/exercise-recording/ui/RecordExercise/Exerc
 import { RecordReps } from "./RecordReps";
 import { Exercise } from "@/features/exercise-recording/types";
 import { useState } from "react";
+import { EndSessionButton } from "../RecordSession/EndSessionButton";
+import { useRouter } from "next/router";
 
 type Props = {
   sessionId: string;
 };
 export const RecordExercise = ({ sessionId }: Props) => {
   const [selectedExercise, setSelectedExercise] = useState<Exercise<any>>();
+
+  const router = useRouter();
 
   return (
     <div>
@@ -38,6 +42,13 @@ export const RecordExercise = ({ sessionId }: Props) => {
           </div>
         )}
       </div>
+      <EndSessionButton
+        sessionId={sessionId}
+        // onClick={() => {
+        //   console.log("complete");
+        // }}
+      />
     </div>
   );
 };
+

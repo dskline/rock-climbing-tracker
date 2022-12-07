@@ -17,6 +17,6 @@ export type Exercise<T extends keyof ExerciseTypes> = {
 export type Session = {
   id: string;
   start_time: string;
-  end_time?: string;
+  is_active: Boolean;
   session_exercises: Array<Exercise<any>>;
 };

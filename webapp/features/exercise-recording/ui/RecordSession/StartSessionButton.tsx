@@ -1,4 +1,4 @@
-import { createSession } from "@/features/exercise-recording/crud/createSession";
+import { createSession } from "@/features/exercise-recording/crud/client/createSession";
 import { Session } from "@/features/exercise-recording/types";
 
 type Props = {
@@ -14,3 +14,4 @@ export const StartSessionButton = (props: Props) => {
     <button onClick={() => handleCreateSession()}>Start a new session</button>
   );
 };
+
