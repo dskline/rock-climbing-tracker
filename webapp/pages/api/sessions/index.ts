@@ -20,7 +20,6 @@ export default async function handler(
       .select("*");
 
     if (options?.sessionPlanId) {
-      console.log(options.sessionPlanId);
       // Create blank exercise rows for each exercise in the session plan
 
       // 1 - Get the session plan from the database
@@ -31,11 +30,11 @@ export default async function handler(
 
   } else if (req.method === "GET") {
     // get all sessions
-    const { data, error, statusText } = await supabase
+    const { data, error } = await supabase
       .from("sessions")
       .select("start_time, session_exercises (type, data)");
 
     res.status(200).json({ data, error });
 
-  } 
+  }
 }

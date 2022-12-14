@@ -1,23 +1,36 @@
-const EXERCISE_TYPES = {
-  'ExerciseWithReps': {
-    reps: 0
-  }
-};
+import {
+  WeightedExercises,
+  WeightedExerciseData,
+} from "@/features/exercise-recording/exercises/weighted/types";
 
-type ExerciseTypes = typeof EXERCISE_TYPES;
+import {
+  BodyWeightExerciseData,
+  BodyweightExercises,
+} from "@/features/exercise-recording/exercises/bodyweight/types";
 
-export type Exercise<T extends keyof ExerciseTypes> = {
+export type ExerciseCategory =
+  | keyof typeof BodyweightExercises
+  | keyof typeof WeightedExercises;
+
+export type Exercise<T extends ExerciseCategory> = {
   type: T;
+  data?: T extends keyof typeof BodyweightExercises
+    ? BodyWeightExerciseData
+    : T extends keyof typeof WeightedExercises
+    ? WeightedExerciseData
+    : never;
+};
+export type ExerciseMetadata = {
+  id: ExerciseCategory;
   name: string;
   description: string;
   icon: string;
-  data?: ExerciseTypes[T];
 }
 
 export type Session = {
   id: string;
   start_time: string;
-  is_active: Boolean;
+  end_time?: string;
   session_exercises: Array<Exercise<any>>;
 };
 

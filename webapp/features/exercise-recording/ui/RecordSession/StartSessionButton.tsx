@@ -1,5 +1,5 @@
 import { createSession } from "@/features/exercise-recording/crud/client/createSession";
-import { CreateSessionOptions, Session } from "@/features/exercise-recording/types";
+import { CreateSessionOptions } from "@/features/exercise-recording/types";
 import { useRouter } from "next/router";
 
 type Props = {

@@ -1,4 +1,3 @@
-import { Session } from "@/features/exercise-recording/types";
 import { StartSessionButton } from "@/features/exercise-recording/ui/RecordSession/StartSessionButton";
 import Link from "next/link";
 
@@ -6,8 +5,6 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/exercises", label: "Exercises" },
 ];
-
-
 
 export function NavBar() {
   return (
@@ -23,9 +20,7 @@ export function NavBar() {
           </Link>
         ))}
       </nav>
-      <StartSessionButton>
-        Start a new session
-      </StartSessionButton>
+      <StartSessionButton>Start a new session</StartSessionButton>
     </div>
   );
 }

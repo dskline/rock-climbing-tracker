@@ -1,8 +1,10 @@
+import { ExerciseCategory } from '@/features/exercise-recording/types'
 
 type Props = {
+  type: ExerciseCategory;
   sessionId: string;
 }
-export const RecordReps = (props: Props) => {
+export const BodyWeightInput = (props: Props) => {
   const handleRecordReps = async () => {
     const repsInput = document.getElementById("repsInput") as HTMLInputElement;
     if (repsInput.value) {
@@ -12,7 +14,7 @@ export const RecordReps = (props: Props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          type: "PUSHUP",
+          type: props.type,
           data: {
             reps: parseInt(repsInput.value),
           },

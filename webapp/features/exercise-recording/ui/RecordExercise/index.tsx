@@ -1,24 +1,24 @@
 import { NavBar } from "@/features/components/NavBar";
 import { EXERCISES } from "@/features/exercise-recording/ui/RecordExercise/Exercises";
-import { RecordReps } from "./RecordReps";
-import { Exercise } from "@/features/exercise-recording/types";
+import { ExerciseMetadata } from "@/features/exercise-recording/types";
 import { useState } from "react";
 import { EndSessionButton } from "../RecordSession/EndSessionButton";
-import { useRouter } from "next/router";
+import { BodyweightExercises } from "@/features/exercise-recording/exercises/bodyweight/types";
+import { BodyWeightInput } from "@/features/exercise-recording/exercises/bodyweight/BodyWeightInput";
+import { WeightedExercises } from "@/features/exercise-recording/exercises/weighted/types";
+import { WeightedInput } from "@/features/exercise-recording/exercises/weighted/WeightedInput";
 
 type Props = {
   sessionId: string;
 };
 export const RecordExercise = ({ sessionId }: Props) => {
-  const [selectedExercise, setSelectedExercise] = useState<Exercise<any>>();
-
-  const router = useRouter();
+  const [selectedExercise, setSelectedExercise] = useState<ExerciseMetadata>();
 
   return (
     <div>
       <NavBar />
       <div className="p-8">
-      <div>Select an exercise:</div>
+        <div>Select an exercise:</div>
         <div className="grid gap-4 grid-cols-6 w-full my-2">
           {Object.values(EXERCISES).map((exercise) => {
             return (
@@ -36,8 +36,14 @@ export const RecordExercise = ({ sessionId }: Props) => {
         </div>
         {selectedExercise && (
           <div className="mt-4">
-            {selectedExercise.type === "ExerciseWithReps" && (
-              <RecordReps sessionId={sessionId} />
+            {BodyweightExercises.hasOwnProperty(selectedExercise.id) && (
+              <BodyWeightInput
+                type={selectedExercise.id}
+                sessionId={sessionId}
+              />
+            )}
+            {WeightedExercises.hasOwnProperty(selectedExercise.id) && (
+              <WeightedInput type={selectedExercise.id} sessionId={sessionId} />
             )}
           </div>
         )}
@@ -51,4 +57,3 @@ export const RecordExercise = ({ sessionId }: Props) => {
     </div>
   );
 };
-
