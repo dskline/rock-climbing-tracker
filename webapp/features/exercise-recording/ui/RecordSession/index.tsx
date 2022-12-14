@@ -31,7 +31,7 @@ export const RecordSession = () => {
     <div>
       <NavBar />
 
-      <StartSessionButton onSessionCreated={handleCreateSession} />
+      <StartSessionButton>Start a new session</StartSessionButton>
 
       <div>{insertedSession ? insertedSession.id : ""}</div>
       {insertedSession && <RecordReps sessionId={insertedSession.id} />}

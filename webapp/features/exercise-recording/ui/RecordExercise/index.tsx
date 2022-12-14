@@ -18,7 +18,7 @@ export const RecordExercise = ({ sessionId }: Props) => {
     <div>
       <NavBar />
       <div className="p-8">
-        <div>Select an exercise:</div>
+      <div>Select an exercise:</div>
         <div className="grid gap-4 grid-cols-6 w-full my-2">
           {Object.values(EXERCISES).map((exercise) => {
             return (

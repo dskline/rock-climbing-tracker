@@ -20,3 +20,7 @@ export type Session = {
   is_active: Boolean;
   session_exercises: Array<Exercise<any>>;
 };
+
+export type CreateSessionOptions = {
+  sessionPlanId: string;
+}

@@ -8,11 +8,24 @@ export default async function handler(
   const supabase = initSupabase();
 
   if (req.method === "PUT") {
+    let options;
+    if (req.body) {
+      options = JSON.parse(req.body);
+    }
+
     // create a new session
     const { data, error, statusText } = await supabase
       .from("sessions")
       .insert([{}])
       .select("*");
+
+    if (options?.sessionPlanId) {
+      console.log(options.sessionPlanId);
+      // Create blank exercise rows for each exercise in the session plan
+
+      // 1 - Get the session plan from the database
+      // 2 - Create an insert statement for each exercise in that plan
+    }
 
     res.status(200).json({ data, error, statusText });
 

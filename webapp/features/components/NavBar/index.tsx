@@ -1,7 +1,6 @@
 import { Session } from "@/features/exercise-recording/types";
 import { StartSessionButton } from "@/features/exercise-recording/ui/RecordSession/StartSessionButton";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -11,13 +10,6 @@ const LINKS = [
 
 
 export function NavBar() {
-  
-  const router = useRouter();
-
-  const handleCreateSession = (newSession: Session) => {
-    router.push(`/session/${newSession.id}`);
-  }
-
   return (
     <div className="p-4 flex items-center justify-between bg-white shadow-md">
       <nav className="flex gap-4 text-sm">
@@ -31,8 +23,9 @@ export function NavBar() {
           </Link>
         ))}
       </nav>
-      <StartSessionButton onSessionCreated={handleCreateSession} />
-
+      <StartSessionButton>
+        Start a new session
+      </StartSessionButton>
     </div>
   );
 }

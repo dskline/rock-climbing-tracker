@@ -1,17 +1,27 @@
 import { createSession } from "@/features/exercise-recording/crud/client/createSession";
-import { Session } from "@/features/exercise-recording/types";
+import { CreateSessionOptions, Session } from "@/features/exercise-recording/types";
+import { useRouter } from "next/router";
 
 type Props = {
-  onSessionCreated: (newSession: Session) => void;
-};
+  className?: string;
+  children: React.ReactNode;
+  options?: CreateSessionOptions;
+}
 export const StartSessionButton = (props: Props) => {
+  const router = useRouter();
+
   const handleCreateSession = async () => {
-    const newSession = await createSession();
-    props.onSessionCreated(newSession);
+    const newSession = await createSession(props.options);
+    router.push(`/session/${newSession.id}`);
   };
 
   return (
-    <button onClick={() => handleCreateSession()}>Start a new session</button>
+    <button
+      className={"border border-black rounded-lg " + props.className}
+      onClick={() => handleCreateSession()}
+    >
+      {props.children}
+    </button>
   );
 };
 
