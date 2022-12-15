@@ -1,44 +1,58 @@
-import { ExerciseCategory } from '@/features/exercise-recording/types'
+import { Exercise } from "@/features/exercise-recording/types";
+import {
+  WeightedExerciseData,
+  WeightedExercises,
+} from "@/features/exercise-recording/exercises/weighted/types";
 
 type Props = {
-  type: ExerciseCategory;
+  exercise: Exercise<keyof typeof WeightedExercises>;
   sessionId: string;
-}
-export const WeightedInput = (props: Props) => {
-
+  onChange: (data: WeightedExerciseData) => void;
+};
+export const WeightedInput = ({ exercise, sessionId, onChange }: Props) => {
   const handleSubmit = async () => {
-    const repsInput = document.getElementById("repsInput") as HTMLInputElement;
-    const weightInput = document.getElementById("weightInput") as HTMLInputElement;
-    if (repsInput.value) {
-      fetch(`/api/sessions/${props.sessionId}/exercises`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: props.type,
-          data: {
-            reps: parseInt(repsInput.value),
-            weight: parseFloat(weightInput.value),
+    if (exercise.data) {
+      const { reps, weight } = exercise.data;
+      if (reps && weight) {
+        fetch(`/api/sessions/${sessionId}/exercises`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
           },
-        }),
-      });
+          body: JSON.stringify(exercise),
+        });
+      }
     }
   };
 
   return (
     <div>
       <div>
-        <label>How many reps did you do?</label>
-        <input id="repsInput" placeholder="# reps" type="text" />
+        <input
+          placeholder="# reps"
+          type="text"
+          onChange={(event) => {
+            onChange({
+              reps: parseInt(event.target.value),
+              weight: exercise.data?.weight || 0,
+            });
+          }}
+          onBlur={() => handleSubmit()}
+        />
       </div>
       <div>
-        <label>How much weight did you use?</label>
-        <input id="weightInput" placeholder="weight" type="text" />
+        <input
+          placeholder="weight"
+          type="text"
+          onChange={(event) => {
+            onChange({
+              reps: exercise.data?.reps || 0,
+              weight: parseInt(event.target.value),
+            });
+          }}
+          onBlur={() => handleSubmit()}
+        />
       </div>
-      <button onClick={() => handleSubmit()}>
-        Submit
-      </button>
     </div>
   );
 };

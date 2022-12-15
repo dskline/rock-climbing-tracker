@@ -1,43 +1,80 @@
-import { useEffect, useState } from "react";
-
-import { StartSessionButton } from "./StartSessionButton";
-import { Session } from "@/features/exercise-recording/types";
-import { SessionsTable } from "@/features/exercise-visualization/ui/SessionsTable";
 import { NavBar } from "@/features/components/NavBar";
-import { useRouter } from "next/router";
-import { BodyWeightInput } from '@/features/exercise-recording/exercises/bodyweight/BodyWeightInput'
+import { EXERCISES } from "@/features/exercise-recording/ui/RecordExercise/Exercises";
+import {
+  Exercise,
+  ExerciseMetadata,
+  ExerciseSet,
+} from "@/features/exercise-recording/types";
+import { useState } from "react";
+import { EndSessionButton } from "./EndSessionButton";
+import { RecordExercise } from "@/features/exercise-recording/ui/RecordExercise";
 
-export const RecordSession = () => {
-  const [sessions, setSessions] = useState<Session[]>([] as Session[]);
-  const [insertedSession, setInsertedSession] = useState<Session>();
+type Props = {
+  sessionId: string;
+};
+export const RecordSession = ({ sessionId }: Props) => {
+  const [exercisesAndSets, setExercisesAndSets] = useState(
+    [] as Array<Exercise<any> | ExerciseSet>
+  );
 
-  const router = useRouter();
+  // TODO: Get existing exercises from session
 
-  useEffect(() => {
-    fetchSessionData();
-  }, []);
-
-  const fetchSessionData = async () => {
-    const response = await fetch("/api/sessions");
-    const json = await response.json();
-    setSessions(json.data);
-  };
-
-  const handleCreateSession = (newSession: Session) => {
-    router.push(`/session/${newSession.id}`);
+  const handleAddExercise = (exercise: ExerciseMetadata) => {
+    const newExercise: Exercise<any> = {
+      type: exercise.id,
+    };
+    setExercisesAndSets([...exercisesAndSets, newExercise]);
   };
 
   return (
     <div>
       <NavBar />
+      <div className="p-8">
+        <div>Select an exercise:</div>
+        <div className="grid gap-4 grid-cols-6 w-full my-2">
+          {Object.values(EXERCISES).map((exercise) => {
+            return (
+              <button
+                key={exercise.name}
+                title={exercise.description}
+                className="h-12 bg-blue-100 rounded-lg border border-blue-800 text-blue-900 font-semibold shadow-lg"
+                onClick={() => handleAddExercise(exercise)}
+              >
+                <span className="pr-2">{exercise.icon}</span>
+                {exercise.name}
+              </button>
+            );
+          })}
+        </div>
+        {exercisesAndSets.map((exerciseOrSet, index) => {
+          const isExercise = !(exerciseOrSet instanceof Array);
 
-      <StartSessionButton>Start a new session</StartSessionButton>
-
-      <div>{insertedSession ? insertedSession.id : ""}</div>
-      {insertedSession && <BodyWeightInput type="PUSHUP" sessionId={insertedSession.id} />}
-      <br />
-      <br />
-      <SessionsTable sessions={sessions} />
+          if (isExercise) {
+            const exercise = exerciseOrSet as Exercise<any>;
+            return (
+              <div key={index} className="mt-4">
+                <RecordExercise
+                  sessionId={sessionId}
+                  exercise={exercise}
+                  onChange={(data) => {
+                    exercise.data = data;
+                    setExercisesAndSets([...exercisesAndSets]);
+                  }}
+                />
+              </div>
+            );
+          } else {
+            const exerciseSet = exerciseOrSet as ExerciseSet;
+            return <div key={index}>{exerciseSet.length}</div>;
+          }
+        })}
+      </div>
+      <EndSessionButton
+        sessionId={sessionId}
+        // onClick={() => {
+        //   console.log("complete");
+        // }}
+      />
     </div>
   );
 };

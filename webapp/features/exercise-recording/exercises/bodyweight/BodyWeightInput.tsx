@@ -1,37 +1,40 @@
-import { ExerciseCategory } from '@/features/exercise-recording/types'
+import { Exercise } from "@/features/exercise-recording/types";
+import {
+  BodyWeightExerciseData,
+  BodyweightExercises,
+} from "@/features/exercise-recording/exercises/bodyweight/types";
 
 type Props = {
-  type: ExerciseCategory;
+  exercise: Exercise<keyof typeof BodyweightExercises>;
   sessionId: string;
-}
-export const BodyWeightInput = (props: Props) => {
-  const handleRecordReps = async () => {
-    const repsInput = document.getElementById("repsInput") as HTMLInputElement;
-    if (repsInput.value) {
-      fetch(`/api/sessions/${props.sessionId}/exercises`, {
+  onChange: (data: BodyWeightExerciseData) => void;
+};
+export const BodyWeightInput = ({ exercise, sessionId, onChange }: Props) => {
+  const handleUpsert = async () => {
+    if (exercise.data?.reps) {
+      fetch(`/api/sessions/${sessionId}/exercises`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          type: props.type,
-          data: {
-            reps: parseInt(repsInput.value),
-          },
-        }),
+        body: JSON.stringify(exercise),
       });
     }
   };
 
   return (
     <div>
-      <div>
-        <label>How many reps did you do?</label>
-      </div>
-      <input id="repsInput" placeholder="# reps" type="text" />
-      <button onClick={() => handleRecordReps()}>
-        Submit
-      </button>
+      <input
+        placeholder="# reps"
+        type="text"
+        onChange={(event) => {
+          onChange({
+            ...exercise.data,
+            reps: parseInt(event.target.value),
+          });
+        }}
+        onBlur={() => handleUpsert()}
+      />
     </div>
   );
 };

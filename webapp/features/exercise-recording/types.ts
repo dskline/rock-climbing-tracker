@@ -26,6 +26,7 @@ export type ExerciseMetadata = {
   description: string;
   icon: string;
 }
+export type ExerciseSet = Array<Exercise<any>>;
 
 export type Session = {
   id: string;
