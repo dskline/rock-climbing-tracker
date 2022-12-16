@@ -5,19 +5,28 @@ import {
   ExerciseMetadata,
   ExerciseSet,
 } from "@/features/exercise-recording/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EndSessionButton } from "./EndSessionButton";
 import { RecordExercise } from "@/features/exercise-recording/ui/RecordExercise";
+import { getExercises } from "@/features/exercise-recording/crud/client/getExercises";
 
 type Props = {
   sessionId: string;
 };
 export const RecordSession = ({ sessionId }: Props) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [exercisesAndSets, setExercisesAndSets] = useState(
     [] as Array<Exercise<any> | ExerciseSet>
   );
 
-  // TODO: Get existing exercises from session
+  useEffect(() => {
+    if (sessionId) {
+      getExercises(sessionId).then((data) => {
+        setExercisesAndSets(data);
+        setIsLoading(false);
+      });
+    }
+  }, [sessionId]);
 
   const handleAddExercise = (exercise: ExerciseMetadata) => {
     const newExercise: Exercise<any> = {
@@ -46,7 +55,10 @@ export const RecordSession = ({ sessionId }: Props) => {
             );
           })}
         </div>
-        {exercisesAndSets.map((exerciseOrSet, index) => {
+        {isLoading && (
+            <div>Loading exercises from existing session...</div>
+        )}
+        {!isLoading && exercisesAndSets.map((exerciseOrSet, index) => {
           const isExercise = !(exerciseOrSet instanceof Array);
 
           if (isExercise) {

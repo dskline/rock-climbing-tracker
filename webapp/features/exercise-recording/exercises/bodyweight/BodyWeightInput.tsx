@@ -27,6 +27,7 @@ export const BodyWeightInput = ({ exercise, sessionId, onChange }: Props) => {
       <input
         placeholder="# reps"
         type="text"
+        value={exercise.data?.reps}
         onChange={(event) => {
           onChange({
             ...exercise.data,

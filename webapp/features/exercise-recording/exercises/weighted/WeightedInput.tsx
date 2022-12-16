@@ -31,6 +31,7 @@ export const WeightedInput = ({ exercise, sessionId, onChange }: Props) => {
         <input
           placeholder="# reps"
           type="text"
+          value={exercise.data?.reps}
           onChange={(event) => {
             onChange({
               reps: parseInt(event.target.value),
@@ -44,6 +45,7 @@ export const WeightedInput = ({ exercise, sessionId, onChange }: Props) => {
         <input
           placeholder="weight"
           type="text"
+          value={exercise.data?.weight}
           onChange={(event) => {
             onChange({
               reps: exercise.data?.reps || 0,

@@ -13,6 +13,7 @@ export type ExerciseCategory =
   | keyof typeof WeightedExercises;
 
 export type Exercise<T extends ExerciseCategory> = {
+  exercise_id?: string;
   type: T;
   data?: T extends keyof typeof BodyweightExercises
     ? BodyWeightExerciseData
