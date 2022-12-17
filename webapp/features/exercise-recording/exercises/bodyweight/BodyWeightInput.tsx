@@ -1,24 +1,29 @@
 import { Exercise } from "@/features/exercise-recording/types";
-import {
-  BodyWeightExerciseData,
-  BodyweightExercises,
-} from "@/features/exercise-recording/exercises/bodyweight/types";
+import { BodyweightExercises } from "@/features/exercise-recording/exercises/bodyweight/types";
+import { runFetch, runUpdateFetch } from "@/features/utilities/runFetch";
 
 type Props = {
   exercise: Exercise<keyof typeof BodyweightExercises>;
   sessionId: string;
-  onChange: (data: BodyWeightExerciseData) => void;
+  onChange: (exercise: Exercise<keyof typeof BodyweightExercises>) => void;
 };
 export const BodyWeightInput = ({ exercise, sessionId, onChange }: Props) => {
   const handleUpsert = async () => {
     if (exercise.data?.reps) {
-      fetch(`/api/sessions/${sessionId}/exercises`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(exercise),
-      });
+      if (!exercise.exercise_id) {
+        // Create a new exercise
+        const newExercise = await runFetch(
+          "PUT",
+          `/api/sessions/${sessionId}/exercises`,
+          exercise
+        );
+        onChange(newExercise);
+      } else {
+        await runUpdateFetch(
+          `/api/exercises/${exercise.exercise_id}`,
+          exercise
+        );
+      }
     }
   };
 
@@ -29,10 +34,11 @@ export const BodyWeightInput = ({ exercise, sessionId, onChange }: Props) => {
         type="text"
         value={exercise.data?.reps}
         onChange={(event) => {
-          onChange({
+          exercise.data = {
             ...exercise.data,
             reps: parseInt(event.target.value),
-          });
+          };
+          onChange(exercise);
         }}
         onBlur={() => handleUpsert()}
       />

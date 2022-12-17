@@ -21,7 +21,7 @@ export async function createExercise<T extends ExerciseCategory>(
         data,
       },
     ])
-    .select("exercise_id");
+    .select("exercise_id, data, type");
 
   if (!insertedSessionExercise) {
     return {
@@ -42,10 +42,13 @@ export async function createExercise<T extends ExerciseCategory>(
     };
   }
 
-  return supabase.from(table).insert([
+  const exerciseId = insertedSessionExercise[0].exercise_id;
+  const { error } = await supabase.from(table).insert([
     {
-      id: insertedSessionExercise[0].exercise_id,
+      id: exerciseId,
       ...data,
     },
   ]);
+
+  return { data: insertedSessionExercise[0], error };
 }

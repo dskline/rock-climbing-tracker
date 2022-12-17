@@ -14,7 +14,7 @@ export const StartSessionButton = (props: Props) => {
   const router = useRouter();
 
   const handleCreateSession = async () => {
-    const newSession = await runFetch<Session, CreateSessionOptions>(
+    const newSession = await runFetch<CreateSessionOptions, Session>(
       "PUT",
       "/api/sessions",
       props.options

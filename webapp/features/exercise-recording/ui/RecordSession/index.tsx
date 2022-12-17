@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { EndSessionButton } from "./EndSessionButton";
 import { RecordExercise } from "@/features/exercise-recording/ui/RecordExercise";
-import { runFetch } from "@/features/utilities/runFetch";
+import { runGetFetch } from "@/features/utilities/runFetch";
 
 type Props = {
   sessionId: string;
@@ -21,8 +21,7 @@ export const RecordSession = ({ sessionId }: Props) => {
 
   useEffect(() => {
     if (sessionId) {
-      runFetch<Array<Exercise<any> | ExerciseSet>, void>(
-        "GET",
+      runGetFetch<Array<Exercise<any> | ExerciseSet>>(
         `/api/sessions/${sessionId}/exercises`
       ).then((data) => {
         setExercisesAndSets(data);
@@ -70,8 +69,10 @@ export const RecordSession = ({ sessionId }: Props) => {
                   <RecordExercise
                     sessionId={sessionId}
                     exercise={exercise}
-                    onChange={(data) => {
-                      exercise.data = data;
+                    onChange={(updatedExercise) => {
+                      console.log('updatedExercise', updatedExercise);
+                      exercise.exercise_id = updatedExercise.exercise_id;
+                      exercise.data = updatedExercise.data;
                       setExercisesAndSets([...exercisesAndSets]);
                     }}
                   />
