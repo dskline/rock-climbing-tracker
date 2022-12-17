@@ -1,5 +1,4 @@
-import { Session } from "@/features/exercise-recording/types";
-import { endSession } from "@/features/exercise-recording/crud/client/endSession";
+import { runFetch } from '@/features/utilities/runFetch'
 
 type Props = {
   sessionId: string;
@@ -7,7 +6,7 @@ type Props = {
 };
 export const EndSessionButton = (props: Props) => {
   const handleEndSession = async () => {
-    await endSession(props.sessionId);
+    await runFetch("POST", `/api/sessions/${props.sessionId}`);
     props.onClick?.();
   };
 

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { endSession } from "@/features/exercise-recording/crud/db/endSession";
-import { createExercise } from "@/features/exercise-recording/crud/db/createExercise";
-import {getExercises} from "@/features/exercise-recording/crud/db/getExercises";
+import { endSession } from "@/features/exercise-recording/crud/endSession";
+import { createExercise } from "@/features/exercise-recording/crud/createExercise";
+import { getExercises } from "@/features/exercise-recording/crud/getExercises";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,13 +22,11 @@ export default async function handler(
     }
 
     return res.status(200).json({ error });
-  } else if (req.method === "GET") {
 
+  }
+  // Get all exercises for a session
+  else if (req.method === "GET") {
     const data = await getExercises(sessionId as string);
     return res.status(200).json(data);
-
-  } else if (req.method === "POST") {
-    // end active session
-    endSession(sessionId as string);
   }
 }

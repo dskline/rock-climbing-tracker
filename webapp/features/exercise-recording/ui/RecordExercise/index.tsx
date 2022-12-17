@@ -1,14 +1,8 @@
-import {
-  BodyWeightExerciseData,
-  BodyweightExercises,
-} from "@/features/exercise-recording/exercises/bodyweight/types";
+import { BodyweightExercises } from "@/features/exercise-recording/exercises/bodyweight/types";
 import { BodyWeightInput } from "@/features/exercise-recording/exercises/bodyweight/BodyWeightInput";
 import { WeightedExercises } from "@/features/exercise-recording/exercises/weighted/types";
 import { WeightedInput } from "@/features/exercise-recording/exercises/weighted/WeightedInput";
-import {
-  Exercise,
-  ExerciseMetadata,
-} from "@/features/exercise-recording/types";
+import { Exercise } from "@/features/exercise-recording/types";
 import { EXERCISES } from "@/features/exercise-recording/ui/RecordExercise/Exercises";
 
 type Props = {

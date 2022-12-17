@@ -7,6 +7,7 @@ export default async function handler(
 ) {
   const supabase = initSupabase();
 
+  // Create a session
   if (req.method === "PUT") {
     let options;
     if (req.body) {
@@ -28,8 +29,9 @@ export default async function handler(
 
     res.status(200).json({ data, error, statusText });
 
-  } else if (req.method === "GET") {
-    // get all sessions
+  }
+  // get all sessions
+  else if (req.method === "GET") {
     const { data, error } = await supabase
       .from("sessions")
       .select("start_time, session_exercises (type, data)");

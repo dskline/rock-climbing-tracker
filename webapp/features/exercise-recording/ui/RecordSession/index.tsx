@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { EndSessionButton } from "./EndSessionButton";
 import { RecordExercise } from "@/features/exercise-recording/ui/RecordExercise";
-import { getExercises } from "@/features/exercise-recording/crud/client/getExercises";
+import { runFetch } from "@/features/utilities/runFetch";
 
 type Props = {
   sessionId: string;
@@ -21,7 +21,10 @@ export const RecordSession = ({ sessionId }: Props) => {
 
   useEffect(() => {
     if (sessionId) {
-      getExercises(sessionId).then((data) => {
+      runFetch<Array<Exercise<any> | ExerciseSet>, void>(
+        "GET",
+        `/api/sessions/${sessionId}/exercises`
+      ).then((data) => {
         setExercisesAndSets(data);
         setIsLoading(false);
       });
@@ -55,31 +58,30 @@ export const RecordSession = ({ sessionId }: Props) => {
             );
           })}
         </div>
-        {isLoading && (
-            <div>Loading exercises from existing session...</div>
-        )}
-        {!isLoading && exercisesAndSets.map((exerciseOrSet, index) => {
-          const isExercise = !(exerciseOrSet instanceof Array);
+        {isLoading && <div>Loading exercises from existing session...</div>}
+        {!isLoading &&
+          exercisesAndSets.map((exerciseOrSet, index) => {
+            const isExercise = !(exerciseOrSet instanceof Array);
 
-          if (isExercise) {
-            const exercise = exerciseOrSet as Exercise<any>;
-            return (
-              <div key={index} className="mt-4">
-                <RecordExercise
-                  sessionId={sessionId}
-                  exercise={exercise}
-                  onChange={(data) => {
-                    exercise.data = data;
-                    setExercisesAndSets([...exercisesAndSets]);
-                  }}
-                />
-              </div>
-            );
-          } else {
-            const exerciseSet = exerciseOrSet as ExerciseSet;
-            return <div key={index}>{exerciseSet.length}</div>;
-          }
-        })}
+            if (isExercise) {
+              const exercise = exerciseOrSet as Exercise<any>;
+              return (
+                <div key={index} className="mt-4">
+                  <RecordExercise
+                    sessionId={sessionId}
+                    exercise={exercise}
+                    onChange={(data) => {
+                      exercise.data = data;
+                      setExercisesAndSets([...exercisesAndSets]);
+                    }}
+                  />
+                </div>
+              );
+            } else {
+              const exerciseSet = exerciseOrSet as ExerciseSet;
+              return <div key={index}>{exerciseSet.length}</div>;
+            }
+          })}
       </div>
       <EndSessionButton
         sessionId={sessionId}

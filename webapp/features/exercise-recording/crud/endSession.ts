@@ -3,7 +3,7 @@ import initSupabase from "@/features/db/initSupabase";
 export async function endSession(sessionId: string) {
   const supabase = initSupabase();
 
-  return await supabase
+  return supabase
     .from("sessions")
     .update([
       {
@@ -11,6 +11,4 @@ export async function endSession(sessionId: string) {
       },
     ])
     .eq("id", sessionId);
-
-  
 }
