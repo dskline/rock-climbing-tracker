@@ -9,26 +9,23 @@ export default async function handler(
 
   // Create a session
   if (req.method === "PUT") {
-    let options;
-    if (req.body) {
-      options = JSON.parse(req.body);
-    }
-
     // create a new session
     const { data, error, statusText } = await supabase
       .from("sessions")
       .insert([{}])
       .select("*");
 
-    if (options?.sessionPlanId) {
+    if (req.body?.sessionPlanId) {
       // Create blank exercise rows for each exercise in the session plan
-
       // 1 - Get the session plan from the database
       // 2 - Create an insert statement for each exercise in that plan
     }
 
-    res.status(200).json({ data, error, statusText });
-
+    if (data) {
+      res.status(200).json({ data: data[0], statusText });
+    } else {
+      res.status(500).json({ error, statusText });
+    }
   }
   // get all sessions
   else if (req.method === "GET") {
@@ -37,6 +34,5 @@ export default async function handler(
       .select("start_time, session_exercises (type, data)");
 
     res.status(200).json({ data, error });
-
   }
 }
