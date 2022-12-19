@@ -2,6 +2,7 @@ import initSupabase from '@/features/db/initSupabase'
 import { Exercise, ExerciseCategory } from '@/features/exercise-recording/types'
 import { WeightedExercises, WeightedTable } from '@/features/exercise-recording/exercises/weighted/types'
 import { BodyweightExercises, BodyWeightTable } from '@/features/exercise-recording/exercises/bodyweight/types'
+import { getDatabaseTable } from '../exercises/Exercises';
 
 type Options<T extends ExerciseCategory> = Exercise<T> & {
   sessionId: string;
@@ -29,18 +30,8 @@ export async function createExercise<T extends ExerciseCategory>(
     };
   }
 
-  let table;
-  if (BodyweightExercises.hasOwnProperty(type)) {
-    table = BodyWeightTable;
-  } else if (WeightedExercises.hasOwnProperty(type)) {
-    table = WeightedTable;
-  }
+  const table = getDatabaseTable(type)
 
-  if (!table) {
-    return {
-      error: `Error: couldn't find table for type ${type}`,
-    };
-  }
 
   const exerciseId = insertedSessionExercise[0].exercise_id;
   const { error } = await supabase.from(table).insert([

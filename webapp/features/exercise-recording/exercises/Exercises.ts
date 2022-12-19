@@ -1,4 +1,6 @@
-import { ExerciseMetadata } from '@/features/exercise-recording/types'
+import { ExerciseCategory, ExerciseMetadata } from '@/features/exercise-recording/types'
+import { BodyweightExercises, BodyWeightTable } from './bodyweight/types';
+import { WeightedExercises, WeightedTable } from './weighted/types';
 
 export const EXERCISES: { [key: string]: ExerciseMetadata } = {
   PUSHUP: {
@@ -23,3 +25,15 @@ export const EXERCISES: { [key: string]: ExerciseMetadata } = {
     icon: "🏋️‍♀️",
   }
 };
+
+export const getDatabaseTable = (type: ExerciseCategory) => {
+  if (BodyweightExercises.hasOwnProperty(type)) {
+    return BodyWeightTable;
+  } else if (WeightedExercises.hasOwnProperty(type)) {
+    return WeightedTable;
+  }
+
+  else {
+    throw new Error("Could not find table type from database") 
+  }
+}

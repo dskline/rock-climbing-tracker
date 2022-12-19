@@ -1,5 +1,4 @@
 import { NavBar } from "@/features/components/NavBar";
-import { EXERCISES } from "@/features/exercise-recording/ui/RecordExercise/Exercises";
 import {
   Exercise,
   ExerciseMetadata,
@@ -9,6 +8,7 @@ import { useEffect, useState } from "react";
 import { EndSessionButton } from "./EndSessionButton";
 import { RecordExercise } from "@/features/exercise-recording/ui/RecordExercise";
 import { runGetFetch } from "@/features/utilities/runFetch";
+import { EXERCISES } from "@/features/exercise-recording/exercises/Exercises";
 
 type Props = {
   sessionId: string;

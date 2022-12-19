@@ -3,7 +3,7 @@ import { BodyWeightInput } from "@/features/exercise-recording/exercises/bodywei
 import { WeightedExercises } from "@/features/exercise-recording/exercises/weighted/types";
 import { WeightedInput } from "@/features/exercise-recording/exercises/weighted/WeightedInput";
 import { Exercise } from "@/features/exercise-recording/types";
-import { EXERCISES } from "@/features/exercise-recording/ui/RecordExercise/Exercises";
+import { EXERCISES } from "@/features/exercise-recording/exercises/Exercises";
 
 type Props = {
   sessionId: string;
