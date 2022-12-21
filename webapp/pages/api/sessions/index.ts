@@ -31,7 +31,7 @@ export default async function handler(
   else if (req.method === "GET") {
     const { data, error } = await supabase
       .from("sessions")
-      .select("start_time, session_exercises (type, data)");
+      .select("id, start_time, is_active");
 
     res.status(200).json({ data, error });
   }

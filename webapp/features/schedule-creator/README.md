@@ -59,8 +59,21 @@ data
 table: exercises
 id: string (PUSHUP, PULLUP, SQUAT)
 name: string (Push-up, Pullup, Squat)
-description: string (description of the exercise)
+acefitness_url: string (description of the exercise)
 category: string
 
+table: categories
+id: string
+name: string
+description: string
+
 table: exercise_categories
+id: string
+exercise_id: string
+category_id: string
+
+pullups
+bodyweight - reps
+weighted - weight
+
 

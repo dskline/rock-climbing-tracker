@@ -32,7 +32,7 @@ export type ExerciseSet = Array<Exercise<any>>;
 export type Session = {
   id: string;
   start_time: string;
-  end_time?: string;
+  is_active: boolean;
   session_exercises: Array<Exercise<any>>;
 };
 
