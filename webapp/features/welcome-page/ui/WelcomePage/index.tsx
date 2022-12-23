@@ -24,29 +24,31 @@ export const WelcomePage = () => {
       </div>
       <div className="flex flex-col gap-4 p-4">
         {activeSession && (
-          <ActiveSessionNotification
-            activeSession={activeSession}
-            onSessionEnd={() => {
-              // Update the sessions state
-              const foundSession = sessions.find(
-                (item) => item.id === activeSession.id
-              );
-              if (foundSession) {
-                foundSession.is_active = false;
-                setSessions([...sessions]);
-              }
-            }}
-            onSessionDelete={() => {
-              // Update the sessions state
-              const sessionIndex = sessions.findIndex(
-                (item) => item.id === activeSession.id
-              );
-              if (sessionIndex >= 0) {
-                sessions.splice(sessionIndex, 1);
-                setSessions([...sessions]);
-              }
-            }}
-          />
+          <div>
+            <ActiveSessionNotification
+              activeSession={activeSession}
+              onSessionEnd={() => {
+                // Update the sessions state
+                const foundSession = sessions.find(
+                  (item) => item.id === activeSession.id
+                );
+                if (foundSession) {
+                  foundSession.is_active = false;
+                  setSessions([...sessions]);
+                }
+              }}
+              onSessionDelete={() => {
+                // Update the sessions state
+                const sessionIndex = sessions.findIndex(
+                  (item) => item.id === activeSession.id
+                );
+                if (sessionIndex >= 0) {
+                  sessions.splice(sessionIndex, 1);
+                  setSessions([...sessions]);
+                }
+              }}
+            />
+          </div>
         )}
         <div className="w-1/2">
           <ExerciseList />
