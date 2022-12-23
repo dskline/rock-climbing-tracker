@@ -25,7 +25,7 @@ export const StartSessionButton = (props: Props) => {
   return (
     <button
       className={
-        "border border-black bg-blue-300 hover:bg-blue-500 rounded-lg w-1/2" +
+        "border border-black bg-blue-300 hover:bg-blue-500 rounded-lg " +
         props.className
       }
       onClick={() => handleCreateSession()}

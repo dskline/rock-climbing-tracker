@@ -4,14 +4,17 @@ specifiers:
   '@supabase/supabase-js': 2.1.0
   '@types/node': 18.11.9
   '@types/react': 18.0.25
+  '@types/react-calendar-heatmap': 1.6.3
   '@types/react-dom': 18.0.9
   autoprefixer: 10.4.13
+  classnames: 2.3.2
   eslint: 8.27.0
   eslint-config-next: 13.0.3
   next: 13.0.3
   postcss: 8.4.19
   prettier: 2.7.1
   react: 18.2.0
+  react-calendar-heatmap: 1.9.0
   react-dom: 18.2.0
   react-icons: 4.7.1
   tailwindcss: 3.2.4
@@ -22,16 +25,19 @@ dependencies:
   '@types/node': 18.11.9
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
+  classnames: 2.3.2
   eslint: 8.27.0
   eslint-config-next: 13.0.3_eslint@8.27.0+typescript@4.9.3
   next: 13.0.3_react-dom@18.2.0+react@18.2.0
   react: 18.2.0
+  react-calendar-heatmap: 1.9.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.7.1_react@18.2.0
   tailwindcss: 3.2.4
   typescript: 4.9.3
 
 devDependencies:
+  '@types/react-calendar-heatmap': 1.6.3
   autoprefixer: 10.4.13_postcss@8.4.19
   postcss: 8.4.19
   prettier: 2.7.1
@@ -314,7 +320,12 @@ packages:
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
-    dev: false
+
+  /@types/react-calendar-heatmap/1.6.3:
+    resolution: {integrity: sha512-C6hN9Nl0NBqeJEkivwwf/bvWNoPwpwGSNABwYl0yHD20rClSJqRgYoGPKDIn8QqoYHGJsTFJdFbBAZRPlJ/+qg==}
+    dependencies:
+      '@types/react': 18.0.25
+    dev: true
 
   /@types/react-dom/18.0.9:
     resolution: {integrity: sha512-qnVvHxASt/H7i+XG1U1xMiY5t+IHcPGUK7TDMDzom08xa7e86eCeKOiLZezwCKVxJn6NEiiy2ekgX8aQssjIKg==}
@@ -328,11 +339,9 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
-    dev: false
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: false
 
   /@typescript-eslint/parser/5.43.0_eslint@8.27.0+typescript@4.9.3:
     resolution: {integrity: sha512-2iHUK2Lh7PwNUlhFxxLI2haSDNyXvebBO9izhjhMoDC+S3XI9qt2DGFUsiJ89m2k7gGYch2aEpYqV5F/+nwZug==}
@@ -634,6 +643,10 @@ packages:
       fsevents: 2.3.2
     dev: false
 
+  /classnames/2.3.2:
+    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
+    dev: false
+
   /client-only/0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
     dev: false
@@ -683,7 +696,6 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-    dev: false
 
   /d/1.0.1:
     resolution: {integrity: sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==}
@@ -1562,6 +1574,10 @@ packages:
       yallist: 4.0.0
     dev: false
 
+  /memoize-one/5.2.1:
+    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
+    dev: false
+
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -1933,6 +1949,16 @@ packages:
   /quick-lru/5.1.1:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
+    dev: false
+
+  /react-calendar-heatmap/1.9.0_react@18.2.0:
+    resolution: {integrity: sha512-mGed9any6QLOVckxwxC/eeP9s9wE8mTUW/FCE0V27xF9WOaCGuOftGSRH8DSDoSwgzMSVF6uuH7M1xvc+aZ8sg==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      memoize-one: 5.2.1
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-dom/18.2.0_react@18.2.0:

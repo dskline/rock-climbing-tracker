@@ -4,7 +4,7 @@
 
 table: session_templates
 id: string
-name?: string
+name: string
 user_id: string
 duration: 1 hour
 exercises: ['PUSHUP', 'SQUAT']

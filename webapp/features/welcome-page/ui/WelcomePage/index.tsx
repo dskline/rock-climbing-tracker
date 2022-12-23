@@ -22,9 +22,9 @@ export const WelcomePage = () => {
       <div>
         <NavBar />
       </div>
-      <div className="flex flex-col gap-4 p-4">
+      <div className="grid md:grid-cols-2 gap-8 p-8">
         {activeSession && (
-          <div>
+          <div className="col-span-full">
             <ActiveSessionNotification
               activeSession={activeSession}
               onSessionEnd={() => {
@@ -50,11 +50,11 @@ export const WelcomePage = () => {
             />
           </div>
         )}
-        <div className="w-1/2">
+        <div>
           <ExerciseList />
         </div>
-        <div className="w-1/2">
-          <Calendar />
+        <div>
+          <Calendar sessions={sessions} />
         </div>
       </div>
     </div>
