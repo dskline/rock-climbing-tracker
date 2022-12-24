@@ -1,19 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createExercise } from "@/features/exercise-recording/crud/createExercise";
 import { getExercises } from "@/features/exercise-recording/crud/getExercises";
+import { Exercise } from '@/features/exercise-recording/types'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { sessionId } = req.query;
-  const body = req.body;
+  const body: Exercise<any> = req.body;
 
   if (req.method === "PUT") {
     const { data, error } = await createExercise({
-      type: body.type,
-      sessionId: sessionId as string,
-      data: body.data,
+      ...body,
+      session_id: sessionId as string,
     });
 
     if (error) {

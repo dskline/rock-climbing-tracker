@@ -7,6 +7,9 @@ import {
   BodyWeightExerciseData,
   BodyweightExercises,
 } from "@/features/exercise-recording/exercises/bodyweight/types";
+import { EXERCISES } from "@/features/exercise-recording/exercises/Exercises";
+
+export type ExerciseIds = keyof typeof EXERCISES;
 
 export type ExerciseCategory =
   | keyof typeof BodyweightExercises
@@ -14,19 +17,21 @@ export type ExerciseCategory =
 
 export type Exercise<T extends ExerciseCategory> = {
   exercise_id?: string;
+  session_id?: string;
   type: T;
   data?: T extends keyof typeof BodyweightExercises
     ? BodyWeightExerciseData
     : T extends keyof typeof WeightedExercises
     ? WeightedExerciseData
     : never;
+  set_number: number;
 };
 export type ExerciseMetadata = {
   id: ExerciseCategory;
   name: string;
   description: string;
   icon: string;
-}
+};
 export type ExerciseSet = Array<Exercise<any>>;
 
 export type Session = {
@@ -38,4 +43,4 @@ export type Session = {
 
 export type CreateSessionOptions = {
   sessionPlanId: string;
-}
+};
